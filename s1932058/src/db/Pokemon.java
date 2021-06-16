@@ -14,6 +14,8 @@ public class Pokemon {
 	private int stamina;
 	/** 最大CP */
 	private int cp;
+	/** タイプ */
+	private String type;
 
 	/** コンストラクタ */
 	public Pokemon(int id, String name, int attack, int defense, int stamina, int cp) {
@@ -23,6 +25,11 @@ public class Pokemon {
 		this.defense = defense;
 		this.stamina = stamina;
 		this.cp = cp;
+	}
+
+	public Pokemon(int id, String name, int attack, int defense, int stamina, int cp, String type) {
+		this(id, name, attack, defense, stamina, cp);
+		this.type = type;
 	}
 
 	public int getId() {
@@ -47,5 +54,9 @@ public class Pokemon {
 
 	public int getCp() {
 		return cp;
+	}
+
+	public String getType() {
+		return type;
 	}
 }

@@ -143,4 +143,40 @@ public class PokemonDAO {
 		}
 		return list;
 	}
+
+	public List<Pokemon> denki() {
+		List<Pokemon> list = new ArrayList<>();
+		String url = "jdbc:h2:tcp://localhost/c:/pleiades/h2/s1932058";
+		Connection conn = null;
+		try {
+			conn = DriverManager.getConnection(url, "user", "pass");
+			String sql = "SELECT pokemon.番号,名前,攻撃力,防御力,体力,最大CP,タイプ FROM pokemon\n" +
+					"JOIN type ON pokemon.番号=type.番号 WHERE タイプ = 'でんき'";
+			PreparedStatement pre = conn.prepareStatement(sql);
+			ResultSet rs = pre.executeQuery();
+			while (rs.next()) {
+				int id = rs.getInt("番号");
+				String name = rs.getString("名前");
+				int attack = rs.getInt("攻撃力");
+				int defense = rs.getInt("防御力");
+				int stamina = rs.getInt("体力");
+				int cp = rs.getInt("最大CP");
+				String type = rs.getString("タイプ");
+				Pokemon p = new Pokemon(id, name, attack, defense, stamina, cp, type);
+				list.add(p);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					return null;
+				}
+			}
+		}
+		return list;
+	}
 }
