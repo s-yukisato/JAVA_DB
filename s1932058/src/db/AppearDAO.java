@@ -63,6 +63,7 @@ public class AppearDAO {
 			pre.setInt(2, shicode);
 			pre.setDate(3, date);
 			pre.setTime(4, time);
+			System.out.println(pre);
 			int result = pre.executeUpdate();
 			if (result == 1) {
 				return true;
@@ -90,6 +91,7 @@ public class AppearDAO {
 			PreparedStatement pre = conn.prepareStatement(sql);
 
 			pre.setInt(1, id);
+			System.out.println(pre);
 			int result = pre.executeUpdate();
 			if (result == 1) {
 				return true;
@@ -108,7 +110,7 @@ public class AppearDAO {
 		return false;
 	}
 
-	public List<Appear> findAll() {
+	public List<Appear> findAll(String item, String order) {
 		List<Appear> list = new ArrayList<>();
 		String url = "jdbc:h2:tcp://localhost/c:/pleiades/h2/s1932058";
 		Connection conn = null;
@@ -117,8 +119,17 @@ public class AppearDAO {
 			String sql = "SELECT ID, APPEAR.番号, 名前, 県名, 市名, 日付, 時刻 FROM APPEAR "
 					+ "JOIN POKEMON ON APPEAR.番号 = POKEMON.番号 "
 					+ "JOIN SHI ON APPEAR.市コード = SHI.市コード "
-					+ "JOIN KEN ON SHI.県コード = KEN.県コード";
+					+ "JOIN KEN ON SHI.県コード = KEN.県コード ";
+			if(item != null && order != null) {
+				sql += "ORDER BY ?, ?";
+			}
+
 			PreparedStatement pre = conn.prepareStatement(sql);
+			if(item != null && order != null) {
+				pre.setString(1, item);
+				pre.setString(2, order);
+			}
+			System.out.print(pre);
 			ResultSet rs = pre.executeQuery();
 			while (rs.next()) {
 				int id = rs.getInt("ID");

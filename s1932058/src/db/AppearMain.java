@@ -41,7 +41,7 @@ public class AppearMain {
 
 	public static void main(String args[]) {
 		AppearMain main = new AppearMain();
-//		main.insert(8,  12206);
+		main.insert(8,  12206);
 //		main.delete(5);
 		main.allAppear();
 	}
